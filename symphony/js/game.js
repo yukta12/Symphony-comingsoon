@@ -1,115 +1,142 @@
-var width = $(window).width();
-			var height = $(window).height();
-			var width_canvas = height/1.5;
-			var tile_no = 0;
-			var a = 0;
-			var dead = 0;
-			var b = width_canvas/4;
-			var c = width_canvas/2;
-			var d = width_canvas*3/4;
-			var comming = 0;
-			var rev_speed = 4;
-			var score = 0;
-			var time = height*rev_speed/3;
-			$(".tile").css("width", b+'px');
-			if(height > width)
-			{
-				$("#canvas").css("width", "100%");
-			}
-			else{
-				$("#canvas").css("width", width_canvas+"px");
-				$("#canvas").css("left", (width-width_canvas)/2+"px");
-			}
-			function add_tile()
-			{
-				tile_no++;
-				$("#canvas").prepend($('<div id="tile'+ tile_no +'" class="tile" onclick="die('+tile_no+')"></div>'));
-				set_tile(tile_no);
-				
-			}
-			function set_tile(tile_no)
-			{
-				var r = Math.random();
-				var g = Math.random();
-				var bl = Math.random();
-				var left;
-				if(!comming)
-				{
-				if((r>0&&r<0.25))
-				{
-					left = a;
-					comming = 1;
-				}
-				else if((r>=0.25&&r<0.5))
-				{
-					left = b;
-					comming = 1;
-				}
-				else if((r>=0.5&&r<0.75))
-				{
-					left = c;
-					comming = 1;
-				}
-				else if(r>=0.75)
-				{
-					left = d;
-					comming = 1;
-				}
-				else{
-					$("#tile"+tile_no).detach();
-					return;
-				}
-				setTimeout(function(){
-					comming = 0;
-				},time);
-				}
-				$("#tile"+tile_no).css("left", left+"px").css("top", "-200px").css('background-color','#000');
-				$(".tile").css("width", b+'px').css("height", height/3+"px");
-				move_tile(tile_no, left);
-				
-			}
-			function move_tile(tile_no, left){
-				var top = -200;
-				var Interval = setInterval(function(){
-					top+=1;
-					if(!dead && $("#tile"+tile_no).position())
-					{
-					if($("#tile"+tile_no).position().top < height-200)
-					{
-						$("#tile"+tile_no).css("top", top+"px");
-					}
-					else{
-						dead = 1;
-						$("#canvas").css("opacity", "0.4");
-						$("#over").css("visibility", "visible");
-						clearInterval(Interval);
-					}
-					}
-				},rev_speed);
-				
-			}
-			function write(data){
-				$("#score").text(data);
-			}
-			function die(id){
-				if(!dead)
-				{
-					$("#tile"+id).detach();
-					score+=10;
-					write("SCORE: "+score);
-				}
-			}
-			$(document).ready(function(){
-				
-				var Interval = setInterval(function(){
-					if(!dead)
-					{
-						add_tile();
-					}
-					else 
-					{
-						clearInterval(Interval);
-					}
-				},time);
-				
-			});
+(function() {
+  var canvas, ctx, grid, move;
+  var movement = 0;
+  var ySpeed = 20;
+  
+  var init = function() {
+    canvas = document.querySelector('#canvas');
+    ctx = canvas.getContext('2d');
+    grid = makeGrid(4, 4, 112.5, 150);
+  };
+  
+  
+  var Tile = function(x, y, width, height, color, stroke) {   
+    // width => x+endX
+    // height => y+endY
+    return {
+      x: x,
+      y: y,
+      width: width,
+      height: height,
+      color: color,
+      stroke: stroke,
+      draw: function() {
+        if(this.stroke) {
+          ctx.strokeStyle = this.color
+          ctx.lineWidth = 1;
+          
+          ctx.clearRect(this.x, this.y, this.x+this.width, this.y+this.height);
+          
+          ctx.strokeRect(this.x, this.y, this.x+this.width, this.y+this.height);
+          
+        } else {
+          ctx.fillStyle = this.color;
+        
+          ctx.fillRect(this.x, this.y, this.x+this.width, this.y+this.height);
+        }
+      },
+      clear: function() {
+         ctx.clearRect(this.x, this.y, this.x+this.width, this.y+this.height);
+      },
+      isHit: function(_event) {
+        if(this.x < _event.clientX && (this.x+this.width) > _event.clientX && this.y < _event.clientY && (this.y+this.height) > _event.clientY) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    };
+  };
+  
+  var makeGrid = function(rows, columns, horDist, verDist) {
+    var rects = [];
+    
+    for(var j = 0; j < rows; j++) {
+      
+      var blackNum = Math.floor(Math.random() * (columns-1 - 0 + 1)) + 0
+      
+      for(var i = 0; i < columns; i++) {
+        var tempTile;
+        if(blackNum !== i) {
+          rects.push(new Tile(i*horDist, j*verDist, i*horDist+horDist, j*verDist+verDist, '#000000', true));
+        } else {
+          rects.push(new Tile(i*horDist, j*verDist, i*horDist+horDist, j*verDist+verDist, '#000000', false));
+        }
+      }
+    }
+    return rects;
+  }
+  
+  var replaceTiles = function(newGrid) {
+    for(var i = newGrid.length-1; i >= 0; i--) {
+      grid.unshift(newGrid[i]);
+    }
+    grid = grid.splice(0, 16);
+  };
+  
+  var drawGrid = function() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for(var k = 0; k < grid.length; k++) {
+      grid[k].draw();
+    }
+  };
+  
+  var clearGrid = function() {
+    for(var i = 0; i < grid.length; i++) {
+      grid[i].clear();
+    }
+  };
+  
+  var moveGridY = function(val) {
+    movement += val;
+    if(movement >= 150) {
+      move = false;
+      movement = 0;
+      replaceTiles(makeGrid(1, 4, 112.5, 150));
+    } else {
+      for(var i = 0; i < grid.length; i++) {
+        grid[i].y += val;
+      }
+    }
+  };
+  
+  var update = function() {
+    if(move) {
+      moveGridY(ySpeed);
+    }
+  };
+  
+  var render = function() {
+    drawGrid();
+  };
+  
+  function timestamp() {
+    return window.performance && window.performance.now ? window.performance.now() : new Date().getTime();
+  };
+  
+  var now, dt,
+    last = timestamp();
+
+  function frame() {
+    now   = timestamp();
+    dt    = (now - last) / 1000;
+     console.log(dt);
+    update(dt);
+    render(dt);
+    last = now;
+    requestAnimationFrame(frame);
+  }
+
+  requestAnimationFrame(frame);
+  
+  init();
+  
+  canvas.addEventListener('click', function(_event) {
+     for(var i = 0; i < grid.length; i++) {
+       if(grid[i].isHit(_event) && !grid[i].stroke) {
+         move = true;
+       }
+     }
+  });
+  
+})();

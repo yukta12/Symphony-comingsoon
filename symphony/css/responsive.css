@@ -1,90 +1,205 @@
 /*Large Devices*/
-@media(min-width: 1200px){
-/*    This is working fine*/
+
+@media(min-width: 1200px) {
+    .social-responsive {
+        display: none;
+    }
+    .logo-text-responsive{
+        display: none;
+    }
+    .links-responsive{
+        display: none;
+    }
+    
+    .social-mobile-responsive{
+        display: none;
+    }
 }
 
 /*Medium Devices(Landscape Tablets and Medium Desktop*/
-@media(min-width: 992px) and (max-width: 1199px){
-/*    This is working fine*/
+
+@media(min-width: 992px) and (max-width: 1199px) {
+    .social-responsive {
+        display: none;
+    }
+    .logo-text-responsive{
+        display: none;
+    }
+    .links-responsive{
+        display: none;
+    }
+    
+    .social-mobile-responsive{
+        display: none;
+    }
 }
 
 /*small devices(Portrait Tablets and Small Desktops)*/
-@media(min-width: 768px) and (max-width: 991px){
-    #wg-menu{
-        float: left;
-    }
-    .home-cover h2{
-        font-size: 40px;
-    }
-    .btn-general{
-        padding: 10px 24px;
-        font-size: 15px;
-    }
-    .about-bg-diagonal{
-        border-left: 0;
-        border-top: 0;
-        width: 100%;
-        height: 350px;
-    }
-    #about content-box{
-        height: 350;
-    }
-    .testimonial blockquote{
-        padding: 10px 50px;
-    }
-    .testimonial blockquote:before{
-        left: 10px;
-    }
-    .testimonial blockquote:after{
-        right: 20px;
-    }
-    .stats-item{
-        padding: 50px 0;
-    }
-    .footer-bottom{
-        text-align: center;
-    }
-    
 
-}
-/* small Devices mobiles  */
-@media(max-width: 767px){
-    #wg-menu{
-        float: left;
+@media(min-width: 768px) and (max-width: 991px) {
+    .movie {
+        padding-left: 250px;
+        font-size: 30px;
+        color: #F80C3A;
+        font-weight: bold;
     }
-    .home-cover h2{
+
+    .social-1,
+    .social-2 {
+        display: none;
+    }
+    .logo .character {
+        position: relative;
+        top: -65px;
+        left: 220px;
+    }
+    .logo .symphony-logo {
+        position: relative;
+        top: -250px;
+        left: 20px;
+        z-index: 2;
+    }
+    .logo-text .p-logo-text {
+        font-size: 32px;
+        margin-top: 10px;
+        margin-left: 80px;
+        padding: 25px;
+        color: #F80C3A;
+        font-weight: 1000;
+
+
+    }
+    .links {
         font-size: 30px;
     }
-    .btn-general{
-        padding: 8px 22px;
-        font-size: 14px;
+
+    .links span {
+        padding-left: 30px;
     }
-    .about-bg-diagonal{
-        border-left: 0;
-        border-top: 0;
-        width: 100%;
-        height: 350px;
+
+
+    .game-heading h3 {
+        font-size: 46px;
+        /*        padding-left: 20px;*/
+        /*        margin-left: 100px;*/
+        text-align: center;
+
     }
-    #about content-box{
-        height: 350;
+    .game-text p {
+        text-align: center;
+        font-size: 22px;
+        color: #111;
+        line-height: normal;
+        font-weight: 500;
     }
-    .testimonial blockquote{
-        padding: 10px 50px;
+
+    .score-text,
+    .time-text {
+        text-align: center;
+        color: #111;
+        font-size: 28px;
+        font-weight: bold;
     }
-    .testimonial blockquote:before{
-        left: 10px;
+    .score-count,
+    .time-count {
+        color: #F80C3A;
+        font-size: 28px;
+        font-weight: bolder;
+        padding-left: 100px;
+        margin-left: 70px;
     }
-    .testimonial blockquote:after{
-        right: 20px;
+    .logo-text-responsive{
+        display: none;
     }
-    .stats-item{
-        padding: 10px 0;
+
+    .links-responsive{
+        display: none;
     }
-    .footer-bottom{
+    .social-mobile-responsive{
+        display: none;
+    }
+
+}
+
+/* small Devices mobiles  */
+
+@media(max-width: 767px) {
+    .counter{
+        display: none;
+    }
+    .movie{
+        display: none;
+    }
+    .social-icons{
+        display: none;
+    }
+    .social-responsive{
+        display: none;
+    }
+    .logo-text{
+        display: none;
+    }
+    .logo-text-responsive .p-logo-text{
+        font-size: 52px;
+        font-weight: 900;
+        margin: 50px;
         text-align: center;
     }
-    .btn-back-to-top{
-        padding: 5px 10px;
+     .logo .character {
+        position: relative;
+        top: 15px;
+        left: 180px;
+/*        height: 350px;*/
     }
+    .logo .symphony-logo {
+        position: relative;
+        top: -150px;
+        left: 20px;
+        z-index: 2;
+/*        width: 400px;*/
+    }
+    .logo{
+        padding: 20px;
+    }
+    .links{
+        display: none;
+    }
+     .game-heading h3 {
+        font-size: 46px;
+        /*        padding-left: 20px;*/
+        /*        margin-left: 100px;*/
+        text-align: center;
+         margin: auto;
+
+    }
+    .game-text p {
+/*        text-align: center;*/
+        font-size: 22px;
+        color: #111;
+        line-height: normal;
+        font-weight: 500;
+        margin: auto;
+    }
+
+    .score-text,
+    .time-text {
+/*        text-align: center;*/
+        color: #111;
+        font-size: 28px;
+        font-weight: bold;
+        padding: 0;
+        margin: 20px;
+        
+    }
+    .score-count,
+    .time-count {
+        color: #F80C3A;
+        font-size: 28px;
+        font-weight: bolder;
+        padding: 0;
+        margin: 20px;
+
+    }
+    
     
 }
