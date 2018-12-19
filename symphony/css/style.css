@@ -336,7 +336,7 @@ LOGO TEXT
 
 .score-text,
 .time-text {
-    padding-left: 130px;
+    padding-left: 110px;
     padding-top: 30px;
     color: #111;
     font-size: 28px;
@@ -352,6 +352,22 @@ LOGO TEXT
     padding-left: 100px;
     font-family: 'Source Sans Pro', sans-serif;
     line-height: 30px;
+}
+
+.refresh{
+    font-size: 20px;
+    padding: 40px;
+    padding-left: 230px;
+   
+}
+    
+.refresh a{
+     color: #F80C3A;
+}
+.refresh span{
+     font-family: 'Source Sans Pro', sans-serif;
+    font-weight: bolder;
+    padding: 2px;
 }
 
 

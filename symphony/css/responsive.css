@@ -131,6 +131,7 @@
         margin: 30px 200px;
     }
     
+    
 
 }
 
@@ -219,6 +220,10 @@
     }
     .canvas-responsive{
         margin-left: 10px;
+    }
+    
+    .refresh{
+        padding-left: 100px;
     }
     
     
