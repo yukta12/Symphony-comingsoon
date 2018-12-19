@@ -14,6 +14,9 @@
     .social-mobile-responsive{
         display: none;
     }
+    .canvas-responsive{
+        display: none;
+    }
 }
 
 /*Medium Devices(Landscape Tablets and Medium Desktop*/
@@ -30,6 +33,9 @@
     }
     
     .social-mobile-responsive{
+        display: none;
+    }
+    .canvas-responsive{
         display: none;
     }
 }
@@ -100,13 +106,13 @@
         font-size: 28px;
         font-weight: bold;
     }
-    .score-count,
-    .time-count {
+    #score-count,
+    #time-count {
         color: #F80C3A;
         font-size: 28px;
         font-weight: bolder;
         padding-left: 100px;
-        margin-left: 70px;
+        margin-left: 80px;
     }
     .logo-text-responsive{
         display: none;
@@ -118,6 +124,13 @@
     .social-mobile-responsive{
         display: none;
     }
+    .canvas-pc{
+        display: none;
+    }
+    .canvas-responsive{
+        margin: 30px 200px;
+    }
+    
 
 }
 
@@ -173,12 +186,13 @@
 
     }
     .game-text p {
-/*        text-align: center;*/
+        text-align: center;
         font-size: 22px;
         color: #111;
         line-height: normal;
         font-weight: 500;
         margin: auto;
+        
     }
 
     .score-text,
@@ -191,14 +205,20 @@
         margin: 20px;
         
     }
-    .score-count,
-    .time-count {
+    #score-count,
+    #time-count {
         color: #F80C3A;
-        font-size: 28px;
+        font-size: 38px;
         font-weight: bolder;
         padding: 0;
         margin: 20px;
 
+    }
+    .canvas-pc{
+        display: none;
+    }
+    .canvas-responsive{
+        margin-left: 10px;
     }
     
     

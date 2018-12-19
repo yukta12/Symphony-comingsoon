@@ -15,7 +15,7 @@
     <!--        FAVICON-->
     <!--    <link rel="icon" href="images/favicon.png">-->
     <!--        FONT-->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700" rel="stylesheet">
 
 
     <!--        PLUGINS-->
@@ -129,8 +129,8 @@
     <div id="game">
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
-                    <canvas id="canvas" width="450" height="600"></canvas>
+                <div class="col-md-6 game">
+                    <canvas class="canvas-pc" id="canvas" width="300" height="550"></canvas>
                 </div>
                 <div class="col-md-6">
                     <div class="game-heading wow animated fadeInRight">
@@ -141,13 +141,14 @@
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, distinctio. Nisi velit ratione magni dignissimos hic, nulla natus temporibus aliquid fuga numquam veniam, quidem facere, in tempora vitae? Voluptas, architecto.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi distinctio minus, voluptatibus qui impedit, vel unde quas quo natus tempora dignissimos perferendis libero expedita, esse nesciunt a earum id tempore.
                         </p>
                     </div>
+                    <canvas class="canvas-responsive" id="canvas" width="300" height="550"></canvas>
 
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-xs-6">
 
                             <div class="score wow animated fadeInUp">
                                 <p class="score-text">Score</p>
-                                <span class="score-count">0000</span>
+                                <span id="score-count">0000</span>
 
                             </div>
 
@@ -156,10 +157,10 @@
 
                             <div class="time wow animated fadeInUp">
                                 <p class="time-text">Time</p>
-                                <span class="time-count">
-                                <span class="minutes">00</span>
+                                <span id="time-count">
+                                <span id="minutes_timer">01</span>
                                 <span class="seperator">:</span>
-                                <span class="seconds">00</span>
+                                <span id="seconds_timer">00</span>
                                 </span>
 
                             </div>
