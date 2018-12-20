@@ -1,0 +1,37 @@
+
+            .gameContainer{
+                margin: 0 auto;
+                background: transparent;
+            }
+            .gamePianotitle{
+                background-color: #9834ff;
+                width: 300px;
+                height: 500px;
+                margin: 0 auto;
+                display: block;
+                border: 7px solid #F80C3A;
+                cursor: pointer;
+                border-radius: 5%; 
+            
+            }
+            .replay{
+                display: none;
+            }
+            .center{
+                text-align: center;
+            }
+            .fullButton{
+                width: 300px;
+                padding: 10px 20px;
+                font-size: 1.2rem;
+                font-family: sans-serif;
+                color: red;
+                background-color: green;
+                margin-top: 10px;
+                border: 10px solid #00ffff;
+                outline: none;
+                cursor: pointer;
+            }
+canvas{
+    background:red;
+}

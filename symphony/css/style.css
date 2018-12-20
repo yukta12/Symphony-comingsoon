@@ -4,7 +4,7 @@
 
                     DEFAULT VALUES
         FONT             :     source sans,portico
-        YELLOW           :     #FFDA1E (bg)
+        YELLOW           :     #FFE252 (bg)
 
         GREEN            :       #17A67B
 
@@ -28,24 +28,30 @@ body {
 }
 
 body {
-    background: #FFDA1E;
+    background: #FFE252;
 }
 
 .counter {
     padding: 20px;
 }
-
+.count{
+   padding-top: 5px;
+}
 .counter ul {
     color: #F80C3A;
 }
 
 .movie {
-    font-family: 'Source Sans Pro', sans-serif;
-    font-size: 38px;
+    font-family: 'portico', sans-serif;
+    font-size: 28px;
     line-height: 20px;
-    margin: 100px 0px;
+    margin: 80px 0px;
     color: #F80C3A;
     font-weight: bolder;
+}
+.movie img{
+    display: inline;
+    padding-left: 20px;
 }
 
 .social-icons {
@@ -57,6 +63,11 @@ body {
     padding-left: 180px;
     color: #F80C3A;
     font-weight: 500;
+    transition: transform .2s;
+}
+
+.social-icons i:hover{
+    transform: scale(1.5);
 }
 
 .social-1 {
@@ -124,9 +135,10 @@ ul.countdown li {
 }
 
 ul.countdown li span {
-    font-size: 40px;
+    font-size: 48px;
     font-weight: 700;
     line-height: 20px;
+    font-family: 'Source Sans Black', sans-serif;
 }
 
 ul.countdown li.seperator {
@@ -141,13 +153,14 @@ LOGO TEXT
 ************************/
 
 .logo-text .p-logo-text {
-    font-size: 38px;
-    margin-top: 30px;
+    font-size: 54px;
+    margin-top: 100px;
     margin-left: 80px;
+    margin-bottom: 50px;
     padding: 25px;
     color: #F80C3A;
     font-weight: bolder;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Source Sans Black', sans-serif;
 
 }
 
@@ -187,14 +200,13 @@ LOGO TEXT
 .links {
     font-size: 30px;
     color: #00A6FF;
-    padding: 50px 50px;
+    padding: 50px 100px;
     font-weight: bold;
     line-height: 10px;
     font-family: 'Source Sans Pro', sans-serif;
 }
-
 .links span {
-    padding-left: 50px;
+    padding-left: 100px;
 }
 
 .links a:hover {
@@ -297,14 +309,10 @@ LOGO TEXT
 ************************************/
 
 .canvas-pc {
-    border: 7px solid #F80C3A;
-    border-radius: 5%;
     margin: 50px 150px;
 
 }
 .canvas-responsive{
-    border: 7px solid #F80C3A;
-    border-radius: 5%;
     margin: 50px 0;
 
 }
@@ -321,7 +329,7 @@ LOGO TEXT
     margin-top: 0px;
     margin-left: 50px;
     padding: 25px;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Source Sans Black', sans-serif;
 }
 
 .game-text p {
@@ -357,17 +365,21 @@ LOGO TEXT
 .refresh{
     font-size: 20px;
     padding: 40px;
-    padding-left: 230px;
+    padding-left: 220px;
    
 }
     
-.refresh a{
+.refresh i{
      color: #F80C3A;
 }
 .refresh span{
      font-family: 'Source Sans Pro', sans-serif;
     font-weight: bolder;
     padding: 2px;
+}
+.refresh button{
+    border: 0;
+    background:#FFE252 ;
 }
 
 
@@ -411,7 +423,7 @@ LOGO TEXT
     overflow: hidden;
     position: relative;
     background: #F80C3A;
-    color: #FFDA1E;
+    color: #FFE252;
     margin: 40px 0px;
     font-family: 'Source Sans Pro', sans-serif;
 }
@@ -429,7 +441,7 @@ LOGO TEXT
     /* Starting position */
     transform: translateX(100%);
 
-    animation: scroll-left 10s linear infinite;
+    animation: scroll-left 15s linear infinite;
 }
 
 /* Move it (define the animation) */

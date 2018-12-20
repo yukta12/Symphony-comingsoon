@@ -1,241 +1,362 @@
-(function() {
-  var canvas, ctx, grid, move;
-  var movement = 0;
-  var ySpeed = 20;
-  var blackTileIndex;
-  var score=0;
-  var isPlaying=false;
+function _(id) {
+    return document.getElementById(id);
+}
 
-  //var canvasWidth = canvas.width;
-  //var canvasHeight = canvas.height;
-
-  var init = function() {
-    canvas = document.querySelector('#canvas');
-    style = getComputedStyle(canvas);
-    if(style.display==="none"){
-      canvas = document.querySelector('#canvas2');
-    }
-    ctx = canvas.getContext('2d');
-
-    grid = makeGrid(4, 4, 300/4, 550/4); //112.5, 150
-  };
-
-  var Tile = function(x, y, width, height, color, stroke) {
-    // width => x+endX
-    // height => y+endY
-    return {
-      x: x,
-      y: y,
-      width: width,
-      height: height,
-      color: color,
-      stroke: stroke,
-      draw: function() {
-        if(this.stroke) {
-          ctx.strokeStyle = this.color
-          ctx.lineWidth = 1;
-
-          ctx.clearRect(this.x, this.y, this.x+this.width, this.y+this.height);
-
-          ctx.strokeRect(this.x, this.y, this.x+this.width, this.y+this.height);
-
-        } else {
-          ctx.fillStyle = this.color;
-
-          ctx.fillRect(this.x, this.y, this.x+this.width, this.y+this.height);
+var min = 0,
+    sec = 0;
+var config = {
+    playing: false,
+    isGameOver: false,
+    cols: 4,
+    rows: 4,
+    width: 300,
+    height: 500,
+    speed: 7,
+    tile: {
+        border: 1,
+        color: {
+            default: "#FFE252",
+            clicked: "#E6BE3A",
+            unclicked: "#000",
+            wrong: "red"
         }
-      },
-      clear: function() {
-         ctx.clearRect(this.x, this.y, this.x+this.width, this.y+this.height);
-      },
-      isHit: function(_event) {
-        if(this.x < _event.clientX && (this.x+this.width) > _event.clientX && this.y < _event.clientY && (this.y+this.height) > _event.clientY) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-    };
-  };
+    },
+    gameInterval: null,
+    score: 0,
+    maxScore: 0,
+    accent: "#F80C3A",
+    font: "bold 40px monospace",
+    fontNormal: "bold 20px monospace",
+    intervalTime: 40,
+    incrementSpeedAfterTile: 10
+};
 
-  var makeGrid = function(rows, columns, horDist, verDist) {
-    var rects = [];
+function tileObject() {
+    this.width = config.width / config.cols;
+    this.height = config.height / config.rows;
+    this.x = 0;
+    this.y = 0;
+    this.bgColor = config.tile.color.default;
+    this.borderColor = "#000";
+    this.border = 1;
+    this.clickable = false;
+    this.isClicked = false;
+    this.row = 0;
+    this.col = 0;
+}
 
-    for(var j = 0; j < rows; j++) {
+function init() {
+    
+    tileHolder = [];
+    var halfRow = Math.round(config.rows / 2);
+    var startTile = null;
+    for (var i = 0; i < config.rows + 2; i++) {
+        var selectedRandomTile = false;
+        for (var j = 0; j < (config.cols); j++) {
+            var tile = new tileObject();
+            tile.x = tile.width * j;
+            tile.y = config.height - tile.height * i;
+            tile.row = i;
+            tile.col = j;
+            if (!selectedRandomTile) {
 
-      var blackNum = Math.floor(Math.random() * (columns-1 - 0 + 1)) + 0
-      for(var i = 0; i < columns; i++) {
-        var tempTile;
-        if(blackNum !== i) {
-          rects.push(new Tile(i*horDist, j*verDist, i*horDist+horDist, j*verDist+verDist, '#000000', true));
+                if (
+                    (Math.ceil(Math.random() * 5) == 2) ||
+                    j == config.cols - 1
+                ) {
 
-        } else {
-          rects.push(new Tile(i*horDist, j*verDist, i*horDist+horDist, j*verDist+verDist, '#000000', false));
-        }
-      }
-    }
-    return rects;
-  }
+                    selectedRandomTile = true;
+                    /*
+                     * Make starting some tile unclickable for game
+                     */
+                    if (i >= halfRow) {
 
-  var replaceTiles = function(newGrid) {
-    for(var i = newGrid.length-1; i >= 0; i--) {
-      grid.unshift(newGrid[i]);
-    }
-    grid = grid.splice(0, 16);
-  };
+                        if (startTile == null) {
+                            startTile = tile;
+                        }
 
-  var drawGrid = function() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for(var k = 0; k < grid.length; k++) {
-      grid[k].draw();
-    }
-  };
+                        makeTileClickable(tile);
+                    }
 
-  var clearGrid = function() {
-    for(var i = 0; i < grid.length; i++) {
-      grid[i].clear();
-    }
-  };
-
-  function countdown () {
-    var time=60;
-
-
-
-		var timer = setInterval( function() {
-      if(!isPlaying){
-        return;
-      }
-
-			if (time > 0 && isPlaying) {
-        time--;
-	 			//time = 60;
-				//time = Math.floor( time - difference );
-				//$('.timer').text( time );
-        //document.getElementsByClassName("minutes_timer").innerHTML="00";
-        //document.getElementsByClassName("seconds_timer").innerHTML=time;
-        document.getElementById("score-count").innerHTML=(score<10) ? "000"+score : (score>=10 && score<100) ? "00"+score : (score>=100 && score<1000) ? "0"+score : score;
-        document.getElementById("minutes_timer").innerHTML="00";
-        document.getElementById("seconds_timer").innerHTML=(time>=10) ? time+"" : "0"+time;
-			} else {
-
-
-				alert("Time's up!");
-				clearInterval(timer);
-        return;
-			}
-
-		}, 1000 );
-
-	};
-
-  var moveGridY = function(val) {
-    movement += val;
-    if(movement >= 550/4) { //150
-      move = false;
-      movement = 0;
-      replaceTiles(makeGrid(1, 4, 300/4, 550/4)); //112.5, 150
-    } else {
-      for(var i = 0; i < grid.length; i++) {
-        grid[i].y += val;
-      }
-    }
-  };
-
-  var update = function() {
-    if(move) {
-      moveGridY(ySpeed);
-    }
-  };
-
-  var render = function() {
-    drawGrid();
-  };
-
-  function timestamp() {
-    return window.performance && window.performance.now ? window.performance.now() : new Date().getTime();
-  };
-
-  var now, dt,
-    last = timestamp();
-
-  function frame() {
-    now   = timestamp();
-    dt    = (now - last) / 1000;
-    update(dt);
-    render(dt);
-    last = now;
-    requestAnimationFrame(frame);
-  }
-
-  requestAnimationFrame(frame);
-
-  init();
-
-  for (var i = 0; i < grid.length; i++) {
-    //console.log(grid[i].x+' '+grid[i].y+' '+grid[i].stroke)
-    if(i>=12 && !grid[i].stroke){
-      blackTileIndex=i-12
-    }
-    //console.log(blackTileIndex)
-  }
-
-  $(window).on('load resize',function(){
-        if($(window).width() < 950){ //mobile
-
-          canvas.addEventListener('click', function(_event) {
-            if(!isPlaying){
-              countdown();
-            }
-            isPlaying=true;
-             for(var i = 0; i < grid.length; i++) {
-               if(grid[i].isHit(_event) && !grid[i].stroke) {
-                 move = true;
-                 score++;
-               }
-             }
-          });
-        }
-        else{ //desktop
-          alert("To play the game, press q,w,e,r for the 4 tiles respectively")
-
-          window.addEventListener('keydown',function(_event) {
-              var tempIndex;
-              if(!isPlaying){
-                countdown();
-              }
-              isPlaying=true;
-              for (var i = 12; i < grid.length; i++) {
-                if(!grid[i].stroke){
-                    blackTileIndex=i-12;
                 }
-              }
-              //console.log(_event.key+' '+blackTileIndex);
-              if(_event.key==='q'){
-                tempIndex=0;
-              }
-              else if(_event.key==='w'){
-                tempIndex=1;
-              }
-              else if(_event.key==='e'){
-                tempIndex=2;
-              }
-              else if(_event.key==='r'){
-                tempIndex=3;
-              }
-              if(blackTileIndex===tempIndex && !grid[tempIndex+12].stroke){
-                move=true;
-                score++;
-              }
-              else{
-                if(_event.key=='q' || _event.key=='w' || _event.key=='e' || _event.key=='r')
-                  alert('Game over');
-                  isPlaying=false;
-                  score=0;
-              }
+            }
 
-          });
+            tileHolder.push(tile);
         }
+    }
+    draw();
+    drawStartTile(startTile);
+
+}
+
+ var x = document.getElementById("myAudio");
+
+    function playAudio() {
+        x.play();
+    }
+
+
+function makeTileClickable(tile) {
+    tile.clickable = true;
+    tile.isClicked = false;
+    tile.bgColor = config.tile.color.unclicked;
+}
+
+function draw() {
+
+    if (config.playing) {
+        moveToNextFrame();
+    }
+    var c = _("gameCanvas").getContext('2d');
+    c.clearRect(0, 0, config.width, config.height);
+    for (var i = 0; i < tileHolder.length; i++) {
+        var tempTile = tileHolder[i];
+        drawTile(tempTile);
+    }
+
+
+
+}
+
+function drawTile(tempTile) {
+    var c = _("gameCanvas").getContext('2d');
+    c.fillStyle = tempTile.borderColor;
+    c.fillRect(tempTile.x, tempTile.y, tempTile.width, tempTile.height);
+    c.fillStyle = tempTile.bgColor;
+    c.fillRect(tempTile.x + tempTile.border, tempTile.y + tempTile.border,
+        tempTile.width - tempTile.border, tempTile.height - tempTile.border);
+    c.fill();
+}
+
+
+function moveToNextFrame() {
+    var len = tileHolder.length;
+    var maxPosition = getMaxRowPosition();
+    var tempTileHolder = [];
+    for (var i = 0; i < len; i++) {
+        var tempTile = tileHolder[i];
+
+        //Check if clickable tile has reached to end
+        //i.e. Game Over
+        if (tempTile.clickable) {
+            if (!tempTile.isClicked) {
+                if (tempTile.y + tempTile.height + config.speed >= config.height) {
+
+                    tempTile.bgColor = config.tile.color.wrong;
+                    gameOver();
+                }
+            }
+        }
+
+        if (tempTile.y > config.height) {
+            //Remove Tile and add new tile or reset existing tile
+            tempTile.y = maxPosition - tempTile.height;
+            resetTileExceptXYPosition(tempTile);
+            tempTileHolder.push(tempTile);
+
+        }
+        tempTile.y += config.speed;
+    }
+
+    if (tempTileHolder.length > 0) {
+        var randomeNumber = Math.ceil(Math.random() * config.cols - 1);
+
+        makeTileClickable(tempTileHolder[randomeNumber]);
+    }
+
+}
+
+function resetTileExceptXYPosition(tile) {
+    var y = tile.y;
+    var x = tile.x;
+    var tempTile = new tileObject();
+    for (var k in tempTile) {
+        tile[k] = tempTile[k];
+    }
+    tile.y = y;
+    tile.x = x;
+}
+
+function getMaxRowPosition() {
+    var len = tileHolder.length;
+    var maxTile = null;
+    for (var i = 0; i < len; i += config.cols) {
+        var tempTile = tileHolder[i];
+        if (maxTile == null) {
+            maxTile = tempTile;
+        } else if (maxTile.y > tempTile.y) {
+            maxTile = tempTile;
+        }
+    }
+    return maxTile.y;
+}
+
+function draw() {
+
+    if (config.playing) {
+        moveToNextFrame();
+    }
+    var c = _("gameCanvas").getContext('2d');
+    c.clearRect(0, 0, config.width, config.height);
+    for (var i = 0; i < tileHolder.length; i++) {
+        var tempTile = tileHolder[i];
+        drawTile(tempTile);
+    }
+}
+
+var updateTimeScore;
+
+function startGame() {
+    config.playing = true;
+    config.gameInterval = setInterval(draw, 50);
+    /*min=0,sec=0;
+    updateTimeScore = setInterval(()=>{
+        sec++;
+        min += Math.floor(sec/60);
+        sec = sec%60;
+
+        //document.getElementById("minutes_timer").innerHTML=(min>=10) ? min : "0"+min;
+        //document.getElementById("seconds_timer").innerHTML=(sec>=10) ? sec : "0"+sec;
+    }
+    ,1000);*/
+}
+
+function gameOver() {
+    clearInterval(updateTimeScore);
+    config.isGameOver = true;
+    config.playing = false;
+
+    config.score = 0;
+    clearInterval(config.gameInterval);
+    var c = _("gameCanvas").getContext('2d');
+
+    c.font = config.font;
+    c.fillStyle = config.accent;
+    c.textAlign = "center";
+    c.fillText("Game Over", config.width / 2, 150);
+    //var img = _("replay");
+
+    //c.drawImage(img, config.width / 2 - 30, config.height - 50 - 30, 60, 60);
+
+}
+
+function getTileInPosition(coords) {
+    var x = coords.x;
+    var y = coords.y;
+    var len = tileHolder.length;
+
+    for (var i = 0; i < len; i++) {
+        var tempTile = tileHolder[i];
+        if (x > tempTile.x && x < tempTile.x + tempTile.width) {
+            if (y > tempTile.y && y < tempTile.y + tempTile.height) {
+                return tempTile;
+            }
+        }
+    }
+    return null;
+
+}
+
+function gameMouseClick(e) {
+
+    if (config.isGameOver) {
+        init();
+        config.isGameOver = false;
+        return;
+    } else {
+        if (!config.playing) {
+            startGame();
+        }
+    }
+
+    var x = e.clientX - _("gameCanvas").offsetLeft + window.scrollX;
+    var y = e.clientY - _("gameCanvas").offsetTop + window.scrollY;
+
+    var clickedTile = getTileInPosition({
+        x: x,
+        y: y
     });
 
-})();
+    if (clickedTile != null) {
+        if (clickedTile.clickable) {
+            if (!clickedTile.isClicked) {
+                // console.log("Nice!");
+                clickedTile.isClicked = true;
+                clickedTile.bgColor = config.tile.color.clicked;
+                config.score++;
+                playAudio();
+                //                            var count = config.score;
+            } else {
+                clickedTile.bgColor = config.tile.color.wrong;
+                drawTile(clickedTile);
+                gameOver();
+            }
+        } else {
+            clickedTile.bgColor = config.tile.color.wrong;
+            drawTile(clickedTile);
+            gameOver();
+        }
+    } else {
+        console.log("Tile Not Found");
+    }
+}
+
+
+function drawText(c) {
+    c.font = config.font;
+    c.fillStyle = config.accent;
+    c.textAlign = "center";
+    c.fillText(config.score, config.width / 2, 30);
+}
+
+
+function controleSpeed() {
+    var num = config.incrementSpeedAfterTile;
+    if (config.score % num == num - 1) {
+        var speed = config.intervalTime - 5 * Math.round(config.score / num);
+        if (speed < 5) {
+            speed = 5;
+        } else {
+            clearInterval(config.gameInterval);
+            config.gameInterval = setInterval(draw, speed);
+        }
+    }
+}
+
+function draw() {
+
+    if (config.playing) {
+        moveToNextFrame();
+    }
+
+
+    var c = _("gameCanvas").getContext('2d');
+
+    c.clearRect(0, 0, config.width, config.height);
+
+    for (var i = 0; i < tileHolder.length; i++) {
+        var tempTile = tileHolder[i];
+        drawTile(tempTile);
+    }
+
+    drawText(c);
+    controleSpeed();
+}
+
+
+function drawStartTile(tile) {
+    var c = _("gameCanvas").getContext('2d');
+    c.font = config.fontNormal;
+    c.fillStyle = config.tile.color.default;
+    c.textAlign = "center";
+    c.textBaseline = "middle";
+    var x = tile.x + tile.width / 2;
+    var y = tile.y + tile.height / 2;
+    c.fillText("Start", x, y);
+}
+
+window.onload = function () {
+    init();
+   
+
+}
