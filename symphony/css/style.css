@@ -16,11 +16,17 @@
 
 
 *************************************************/
-
+ @font-face {
+  font-family: 'portico';
+  src: url('../fonts/porticoregular.eot'); /* IE9 Compat Modes */
+  src: /*url('../fonts/porticoregular.woff2') format('woff2'), /* Super Modern Browsers */
+       /*url('../fonts/porticoregular.woff') format('woff'),  Pretty Modern Browsers */
+       url('../fonts/porticoregular.ttf')  format('truetype'), /* Safari, Android, iOS */
+}
 html,
 body {
     height: 100%;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Source Sans black', sans-serif;
 }
 
 .row {
@@ -35,6 +41,7 @@ body {
     padding: 20px;
 }
 .count{
+    
    padding-top: 5px;
 }
 .counter ul {
@@ -42,12 +49,21 @@ body {
 }
 
 .movie {
+    font: url("../fonts/porticoregular.ttf");
     font-family: 'portico', sans-serif;
-    font-size: 28px;
+    font-size: 32px;
     line-height: 20px;
-    margin: 80px 0px;
+    margin: 60px 0px;
     color: #F80C3A;
     font-weight: bolder;
+}
+.movie a{
+    text-decoration: none;
+    color: #F80C3A; 
+    transition: transform .2s;
+}
+.movie:hover{
+    transform: scale(1.1);
 }
 .movie img{
     display: inline;
@@ -56,9 +72,9 @@ body {
 
 .social-icons {
 
-    font-size: 28px;
+    font-size: 38px;
     line-height: 20px;
-    margin: 60px 0px;
+    margin: 50px 0px;
     padding: 10px;
     padding-left: 180px;
     color: #F80C3A;
@@ -138,7 +154,7 @@ ul.countdown li span {
     font-size: 48px;
     font-weight: 700;
     line-height: 20px;
-    font-family: 'Source Sans Black', sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 ul.countdown li.seperator {
@@ -155,12 +171,13 @@ LOGO TEXT
 .logo-text .p-logo-text {
     font-size: 54px;
     margin-top: 100px;
-    margin-left: 80px;
+    margin-left: 180px;
     margin-bottom: 50px;
+    margin-right: 70px;
     padding: 25px;
     color: #F80C3A;
-    font-weight: bolder;
-    font-family: 'Source Sans Black', sans-serif;
+    font-weight: 900;
+    font-family: 'Source Sans Pro', sans-serif;
 
 }
 
@@ -170,7 +187,7 @@ LOGO TEXT
     margin-left: 80px;
     padding: 25px;
     color: #F80C3A;
-    font-weight: bolder;
+   font-weight: 900;
     font-family: 'Source Sans Pro', sans-serif;
 
 }
@@ -192,21 +209,20 @@ LOGO TEXT
 }
 
 .emogi {
-    font-weight: bold;
+    font-weight: 800;
     font-size: 58px;
     font-family: 'Source Sans Pro', sans-serif;
 }
 
 .links {
-    font-size: 30px;
     color: #00A6FF;
-    padding: 50px 100px;
-    font-weight: bold;
+   font-size: 30px;
     line-height: 10px;
     font-family: 'Source Sans Pro', sans-serif;
+    
 }
-.links span {
-    padding-left: 100px;
+.symphony-link{
+    padding-left: 50px;
 }
 
 .links a:hover {
@@ -324,12 +340,12 @@ LOGO TEXT
 
 .game-heading h3 {
     color: #F80C3A;
-    font-weight: bolder;
+    font-weight: 800;
     font-size: 46px;
     margin-top: 0px;
     margin-left: 50px;
     padding: 25px;
-    font-family: 'Source Sans Black', sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 .game-text p {
@@ -374,7 +390,7 @@ LOGO TEXT
 }
 .refresh span{
      font-family: 'Source Sans Pro', sans-serif;
-    font-weight: bolder;
+    font-weight: 900;
     padding: 2px;
 }
 .refresh button{
